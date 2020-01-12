@@ -1,0 +1,39 @@
+import tensorflow
+
+f = open('text.txt')
+b = f.read()
+g=b.lower()
+a = g.split(" ")
+
+
+
+def tokenize(string, categories):
+    token = ""
+    tokens = []
+    category = None
+    for char in string:
+        if token:
+            if category and char in category:
+                token += char
+            else:
+                tokens.append(token)
+                token = char
+                category = None
+                for cat in categories:
+                    if char in cat:
+                        category = cat
+                        break
+        else:
+            category = None
+            if not category:
+                for cat in categories:
+                    if char in cat:
+                        category = cat
+                        break
+            token += char
+    if token:
+        tokens.append(token)
+    if token == " " or token == "," or token == "!" or token == "?" or token == ":" or token == ";" or token == ".":
+        tokens.remove(token)
+    return tokens
+
